@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <title>Ajax practice</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -59,21 +60,21 @@
     </table>
         </div>
         <div class="col-lg-3">
-            <form action="add" method="POST">
+            <form>
                 @csrf
               <br>
               <h4 id="addHead" class="text-center">Add new Teacher</h4>
               <h4 id="updateHead" class="text-center">Update Teacher</h4>
               <br>
-              <input class="form-control mr-sm-2" type="text" placeholder="Name" name="name">
+              <input class="form-control mr-sm-2" type="text" placeholder="Name" name="name" id="name">
               <br>
-              <input class="form-control mr-sm-2" type="text" placeholder="title" name="title">
+              <input class="form-control mr-sm-2" type="text" placeholder="title" name="title" id="title">
               <br>
-              <input class="form-control mr-sm-2" type="text" placeholder="department" name="department">
+              <input class="form-control mr-sm-2" type="text" placeholder="department" name="department" id="department">
               <br>
-              <input class="form-control mr-sm-2" type="text" placeholder="institute" name="institute">
+              <input class="form-control mr-sm-2" type="text" placeholder="institute" name="institute" id="institute">
               <br>
-              <button id="addButton" class="btn btn-success" type="submit">Add</button>
+              <button id="addButton" class="btn btn-success" onclick="addData()">Add</button>
               <button id="updateButton" class="btn btn-success" type="submit">Update</button>
               <br>
               <br>
@@ -115,6 +116,13 @@
         $('#addButton').show();
         $('#updateButton').hide();
 
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+
         function alldata(){
             $.ajax({
             type:"GET",
@@ -142,6 +150,39 @@
         }
 
         alldata();
+
+        function addData(){
+            var name = $('#name').val();
+            var title = $('#title').val();
+            var department = $('#department').val();
+            var institute = $('#institute').val();
+
+
+
+            $.ajax({
+            type:"POST",
+            datatype:'json',
+            data:{name:name,title:title,department:department,institute:institute},
+            url:'/teacher/add',
+            success: function(response){
+                console.log('add success');
+                clearData();
+                alldata();
+            
+            }
+        })
+
+        }
+
+
+
+        
+        function clearData(){
+            $('#name').val('');
+            $('#title').val('');
+            $('#department').val('');
+            $('#institute').val('');
+        }
 
         
     </script>
