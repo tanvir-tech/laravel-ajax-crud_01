@@ -22,3 +22,4 @@ Route::get('/teacher/all',[TeacherController::class,'listTeacher']);
 Route::post('/teacher/add',[TeacherController::class,'addTeacher']);
 Route::get('/teacher/edit/{id}',[TeacherController::class,'editTeacher']);
 Route::post('/teacher/update/{id}',[TeacherController::class,'updateTeacher']);
+Route::get('/teacher/delete/{id}', [TeacherController::class,'deleteTeacher']);

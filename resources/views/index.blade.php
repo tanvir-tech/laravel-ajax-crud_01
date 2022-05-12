@@ -143,7 +143,7 @@
                     data=data+"<td>"+value.title+"</td>";
                     data=data+"<td>"+value.department+"</td>";
                     data=data+"<td>"+value.institute+"</td>";
-                    data=data+"<td>"+"<button class='btn btn-danger'>Delete</button>"
+                    data=data+"<td>"+"<button class='btn btn-danger' onclick='deleteTeacher("+value.id+")'>Delete</button>"
                                     +"<button class='btn btn-info' onclick='editTeacher("+value.id+")'>Edit</button>"
                              +"</td>";
                              
@@ -243,6 +243,26 @@
             }
         })
         }
+
+        function deleteTeacher(id){
+        $.ajax(
+        {
+            url: "teacher/delete/"+id,
+            type: 'GET',
+            dataType: "JSON",
+            data: {
+                "id": id,
+                "_method": 'DELETE'
+            },
+            success: function ()
+            {
+                alldata();
+                console.log("it Work");
+            }
+        });
+
+        console.log("It failed");
+    };
 
         
     </script>

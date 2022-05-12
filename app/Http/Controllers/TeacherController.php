@@ -57,4 +57,13 @@ class TeacherController extends Controller
         ]);
 
     }
+
+
+    function deleteTeacher($id){
+        Teacher::destroy($id);
+        
+        return response()->json([
+            'success' => 'Record has been deleted successfully!'
+        ]);
+    }
 }
