@@ -13,6 +13,6 @@ class Teacher extends Model
         'name',
         'title',
         'department',
-        'inistitute',
+        'institute',
     ];
 }

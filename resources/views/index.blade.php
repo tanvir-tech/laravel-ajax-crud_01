@@ -67,15 +67,20 @@
               <h4 id="updateHead" class="text-center">Update Teacher</h4>
               <br>
               <input class="form-control mr-sm-2" type="text" placeholder="Name" name="name" id="name">
+              <span class="text-danger" id="nameError"></span>
               <br>
               <input class="form-control mr-sm-2" type="text" placeholder="title" name="title" id="title">
+              <span class="text-danger" id="titleError"></span>
               <br>
               <input class="form-control mr-sm-2" type="text" placeholder="department" name="department" id="department">
+              <span class="text-danger" id="departmentError"></span>
               <br>
               <input class="form-control mr-sm-2" type="text" placeholder="institute" name="institute" id="institute">
+              <span class="text-danger" id="instituteError"></span>
               <br>
+              <input type="hidden" id="id">
               <button id="addButton" class="btn btn-success" onclick="addData()">Add</button>
-              <button id="updateButton" class="btn btn-success" type="submit">Update</button>
+              <button id="updateButton" class="btn btn-warning" type="submit" onclick="editData()">Update</button>
               <br>
               <br>
               </form>
@@ -139,7 +144,7 @@
                     data=data+"<td>"+value.department+"</td>";
                     data=data+"<td>"+value.institute+"</td>";
                     data=data+"<td>"+"<button class='btn btn-danger'>Delete</button>"
-                                    +"<button class='btn btn-info'>Update</button>"
+                                    +"<button class='btn btn-info' onclick='editTeacher("+value.id+")'>Edit</button>"
                              +"</td>";
                              
                     data=data+"<tr>";
@@ -169,6 +174,12 @@
                 clearData();
                 alldata();
             
+            },
+            error:function(error){
+                $('#nameError').text(error.responseJSON.errors.name);
+                $('#titleError').text(error.responseJSON.errors.title);
+                $('#departmentError').text(error.responseJSON.errors.department);
+                $('#instituteError').text(error.responseJSON.errors.institute);
             }
         })
 
@@ -182,6 +193,55 @@
             $('#title').val('');
             $('#department').val('');
             $('#institute').val('');
+        }
+
+
+        function editTeacher(id){
+            $.ajax({
+            type:"GET",
+            datatype:'json',
+            url:'/teacher/edit/'+id,
+            success: function(response){
+                $('#addHead').hide();
+                $('#updateHead').show();
+                $('#addButton').hide();
+                $('#updateButton').show();
+
+                $('#id').val(response.id);
+                $('#name').val(response.name);
+                $('#title').val(response.title);
+                $('#department').val(response.department);
+                $('#institute').val(response.institute);
+            }
+        })
+        }
+
+        function editData(){
+            var id = $('#id').val();
+            var name = $('#name').val();
+            var title = $('#title').val();
+            var department = $('#department').val();
+            var institute = $('#institute').val();
+            // console.log(institute);
+           
+            $.ajax({
+            type:"POST",
+            datatype:'json',
+            data:{name:name,title:title,department:department,institute:institute},
+            url:'/teacher/update/'+id,
+            success: function(response){
+                console.log('edit success');
+                clearData();
+                alldata();
+            
+            },
+            error:function(error){
+                $('#nameError').text(error.responseJSON.errors.name);
+                $('#titleError').text(error.responseJSON.errors.title);
+                $('#departmentError').text(error.responseJSON.errors.department);
+                $('#instituteError').text(error.responseJSON.errors.institute);
+            }
+        })
         }
 
         

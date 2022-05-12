@@ -20,3 +20,5 @@ Route::get('/', function () {
 
 Route::get('/teacher/all',[TeacherController::class,'listTeacher']);
 Route::post('/teacher/add',[TeacherController::class,'addTeacher']);
+Route::get('/teacher/edit/{id}',[TeacherController::class,'editTeacher']);
+Route::post('/teacher/update/{id}',[TeacherController::class,'updateTeacher']);
