@@ -30,7 +30,7 @@ class TeacherController extends Controller
             'institute'=>$req->institute
         ]);
 
-        return $data;
+        // return $data;
     }
 
 
@@ -61,7 +61,7 @@ class TeacherController extends Controller
 
     function deleteTeacher($id){
         Teacher::destroy($id);
-        
+
         return response()->json([
             'success' => 'Record has been deleted successfully!'
         ]);

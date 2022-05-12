@@ -115,6 +115,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $('#addHead').show();
         $('#updateHead').hide();
@@ -134,7 +135,7 @@
             datatype:'json',
             url:'/teacher/all',
             success: function(response){
-                console.log(data);
+                // console.log(data);
                 var data ="";
                 $.each(response,function(key,value){
                     data=data+"<tr>";
@@ -173,7 +174,11 @@
                 console.log('add success');
                 clearData();
                 alldata();
-            
+                Swal.fire(
+                        'Good job!',
+                        'New teacher added!',
+                        'success'
+                        )
             },
             error:function(error){
                 $('#nameError').text(error.responseJSON.errors.name);
